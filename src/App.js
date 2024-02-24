@@ -5,6 +5,7 @@ import About from "./components/About";
 // new react router process  import  createBrowserRouter, RouterProvider from react-router-dom
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NoteState from "./context/notes/NoteState";
+// import Alert from "./components/Alert";
 
 // new react router process  create a router
 const router = createBrowserRouter([
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     // element is the component to be rendered
     element: <>
       <Navbar title="NoteBook" about="About" />
+      {/* <Alert message="Success! Your note has been added successfully."/> */}
       <Home />
     </>,
   },
@@ -28,10 +30,12 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-    {/* NoteState set the range of the context  */}
+    {/* set the range of the context  */}
       <NoteState>
+      {/* context available from here to */}
       {/* to call the pages */}
       <RouterProvider router={router} />
+      {/* here */}
       </NoteState>
     </>
   );
