@@ -5,6 +5,8 @@ import About from "./components/About";
 // new react router process  import  createBrowserRouter, RouterProvider from react-router-dom
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NoteState from "./context/notes/NoteState";
+import Login from "./components/User/Login";
+import Signup from "./components/User/Signup";
 // import Alert from "./components/Alert";
 
 // new react router process  create a router
@@ -25,17 +27,31 @@ const router = createBrowserRouter([
       <Navbar title="NoteBook" about="About" />
       <About />
     </>,
+  },
+  {
+    path: "/signup",
+    element: <>
+      <Navbar title="NoteBook" about="About" />
+      <Signup />
+    </>,
+  },
+  {
+    path: "/login",
+    element: <>
+      <Navbar title="NoteBook" about="About" />
+      <Login />
+    </>,
   }]);
 
 function App() {
   return (
     <>
-    {/* set the range of the context  */}
+      {/* set the range of the context  */}
       <NoteState>
-      {/* context available from here to */}
-      {/* to call the pages */}
-      <RouterProvider router={router} />
-      {/* here */}
+        {/* context available from here to */}
+        {/* to call the pages */}
+        <RouterProvider router={router} />
+        {/* here */}
       </NoteState>
     </>
   );
