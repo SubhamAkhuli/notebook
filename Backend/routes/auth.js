@@ -10,6 +10,10 @@ var fetchuser = require('../middleware/fetchuser');
  const JWT_SECRET ="mynameissubhamandiamagoodboy"; 
 
 
+//  set success to false and send the error message in the response
+let success = false;
+
+
 // Route:1 create a user using: POST /api/auth/createuser no login required
 router.post('/createuser',
   //validation for name,email and password
@@ -22,14 +26,14 @@ router.post('/createuser',
     // check for errors in the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success,errors: errors.array() });
     }
     try {
 
       // check if the user with this email already exists
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res.status(400).json({ error: "Sorry a user with this email already exists" });
+        return res.status(400).json({ success,error: "Sorry a user with this email already exists" });
       }
 
       // hash the password
@@ -48,8 +52,11 @@ router.post('/createuser',
         }
       }
       const authToken = jwt.sign(data, JWT_SECRET);
+
+      // set success to true
+      success = true;
       // send the auth token in the response
-      res.json({ authToken });
+      res.json({ success,authToken });
     } catch (error) {
       // error handling
       console.error(error.message);
@@ -71,7 +78,7 @@ router.post('/login', [
   // check for errors in the request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
   }
 
   // destructure the request body and get the email and password
@@ -81,13 +88,13 @@ router.post('/login', [
     // check if the user with this email exists
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "Please try to login with correct credentials" });
+      return res.status(400).json({ success,error: "Please try to login with correct credentials" });
     }
 
     // check if the password matches
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
-      return res.status(400).json({ error: "Please try to login with correct credentials" });
+      return res.status(400).json({ success,error: "Please try to login with correct credentials" });
     }
     // jwt token generation for the user
     const data = {
@@ -97,7 +104,9 @@ router.post('/login', [
     }
     // sign the jwt token
     const authToken = jwt.sign(data, JWT_SECRET);
-    res.json({ authToken });
+    // set success to true and send the auth token in the response
+    success = true;
+    res.json({ success,authToken });
   } catch (error) {
     // error handling
     console.error(error.message);
