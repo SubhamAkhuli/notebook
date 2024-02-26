@@ -38,6 +38,12 @@ export default function Navbar(props) {
                 </NavLink>
               </li>
             </ul>
+            <form className="d-flex">
+                <NavLink className="btn btn-primary mx-2" to="/login" role="button">
+                  Login</NavLink>
+                  <NavLink className="btn btn-primary mx-2" to="/signup" role="button">
+                  Signup</NavLink>
+              </form>
           </div>
         </div>
       </nav>
