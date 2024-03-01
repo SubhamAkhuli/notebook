@@ -2,10 +2,15 @@ import React from "react";
 
 
 // NavLink/Link is used to navigate to different pages in the app without refreshing the page.But we use NavLink becasue also it is used to style the active link to get highlight in navbar.
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 
 export default function Navbar(props) {
+  const navigate =useNavigate();
+  const handelLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
   return (
     <div>
       {/* navbar component */}
@@ -28,9 +33,9 @@ export default function Navbar(props) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to="/">
+                {!localStorage.getItem('token') ?<NavLink className="nav-link" aria-current="page" to="/">
                   Home
-                </NavLink>
+                </NavLink>:<NavLink className="nav-link" aria-current="page" to="/home">Home</NavLink>}
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/about">
@@ -38,12 +43,14 @@ export default function Navbar(props) {
                 </NavLink>
               </li>
             </ul>
-            <form className="d-flex">
-                <NavLink className="btn btn-primary mx-2" to="/login" role="button">
-                  Login</NavLink>
-                  <NavLink className="btn btn-primary mx-2" to="/signup" role="button">
-                  Signup</NavLink>
-              </form>
+            {!localStorage.getItem('token') ? <form className="d-flex">
+              <NavLink className="btn btn-primary mx-2" to="/login" role="button">
+                Login</NavLink>
+              <NavLink className="btn btn-primary mx-2" to="/signup" role="button">
+                Signup</NavLink>
+                </form> :<><NavLink className="btn btn-primary mx-2" to="/profile" role="button">
+                Profile</NavLink><button className="btn btn-primary" onClick={handelLogout} role="button">
+                  Logout</button></>}
           </div>
         </div>
       </nav>
