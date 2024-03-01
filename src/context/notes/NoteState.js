@@ -6,6 +6,27 @@ const NoteState = (props) => {
     const host = "http://localhost:8000"
 
 
+    // Fetching user data
+    const userdata = []
+    // useState is a hook that allows you to have state variables in functional components.
+    const [user, setUser] = useState(userdata)
+
+    //Get User Details
+    const getUser = async () => {
+        // API Call 
+        const response = await fetch(`${host}/api/auth/getuser`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+
+                'auth-token': localStorage.getItem('token')
+            }
+        });
+        const json = await response.json()
+        setUser(json)
+    }
+
+
     // Fetching all notes
     const initialNotes = []
     // useState is a hook that allows you to have state variables in functional components.
@@ -20,12 +41,11 @@ const NoteState = (props) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGJlOGEwYjUwYmYzOTYyOWQwMGQyIn0sImlhdCI6MTcwODUzMDcxOH0.0UJNZWy4CgiuO4RqhkZ_EoFBdenfa5EcK_1ObWhLR90"
-                // 'auth-token': localStorage.getItem('token')
+
+                'auth-token': localStorage.getItem('token')
             }
         });
         const json = await response.json()
-        console.log(json)
         setNotes(json)
     }
 
@@ -39,13 +59,12 @@ const NoteState = (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGJlOGEwYjUwYmYzOTYyOWQwMGQyIn0sImlhdCI6MTcwODUzMDcxOH0.0UJNZWy4CgiuO4RqhkZ_EoFBdenfa5EcK_1ObWhLR90"
-                // 'auth-token': localStorage.getItem('token')
+
+                'auth-token': localStorage.getItem('token')
             },
             body: JSON.stringify({ title, content, tag })
         });
-        const json = await response.json()
-        console.log(json)
+        await response.json()
         const note = {
             "_id": "65d60fc0ac69a1cda3",
             "user": "65d4be8a0b50bf39629d00d2",
@@ -67,8 +86,8 @@ const NoteState = (props) => {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGJlOGEwYjUwYmYzOTYyOWQwMGQyIn0sImlhdCI6MTcwODUzMDcxOH0.0UJNZWy4CgiuO4RqhkZ_EoFBdenfa5EcK_1ObWhLR90"
-                // 'auth-token': localStorage.getItem('token')
+
+                'auth-token': localStorage.getItem('token')
             }
         });
 
@@ -86,13 +105,12 @@ const NoteState = (props) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGJlOGEwYjUwYmYzOTYyOWQwMGQyIn0sImlhdCI6MTcwODUzMDcxOH0.0UJNZWy4CgiuO4RqhkZ_EoFBdenfa5EcK_1ObWhLR90"
-                // 'auth-token': localStorage.getItem('token')
+
+                'auth-token': localStorage.getItem('token')
             },
             body: JSON.stringify({ title, content, tag })
         });
-        const json = await response.json()
-        console.log(json)
+        await response.json()
         // Edit in UI
         let newNotes = JSON.parse(JSON.stringify(notes))
         for (let index = 0; index < newNotes.length; index++) {
@@ -109,7 +127,7 @@ const NoteState = (props) => {
 
     // NoteContext.Provider is a component that provides the context to its children. It takes a value prop which is the value of the context.
     return (
-        <NoteContext.Provider value={{ notes, setNotes, addNote, deleteNote, editNote, getNotes }}>
+        <NoteContext.Provider value={{ notes, setNotes, user, setUser, addNote, deleteNote, editNote, getNotes, getUser }}>
             {props.children}
         </NoteContext.Provider>
     )
