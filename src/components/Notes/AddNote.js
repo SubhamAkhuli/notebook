@@ -24,7 +24,6 @@ function AddNote(props) {
     // form onchange funcation
     const onchange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
-        // console.log(note)
     }
 
     return (
