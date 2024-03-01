@@ -8,7 +8,8 @@ import NoteState from "./context/notes/NoteState";
 import Login from "./components/User/Login";
 import Signup from "./components/User/Signup";
 import Alert from "./components/Alert";
-
+import Main from "./components/Main";
+import Profile from "./components/User/Profile";
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
   const router = createBrowserRouter([
     {
       // path is the url path
-      path: "/",
+      path: "/home",
       // element is the component to be rendered
       element: <>
         <Navbar title="NoteBook" about="About" />
@@ -65,6 +66,28 @@ function App() {
         <Login showAlert={showAlert} />
 
       </>,
+    },
+    {
+      // path is the url path
+      path: "/",
+      // element is the component to be rendered
+      element: <>
+        <Navbar title="NoteBook" about="About" />
+        <Alert alert={alert} />
+        <Main/>
+
+      </>,
+    }
+    ,
+    {
+      path: "/profile",
+      element: <>
+
+        <Navbar title="NoteBook" about="About" />
+        <Alert alert={alert} />
+        <Profile showAlert={showAlert} />
+
+      </>,
     }]);
 
   return (
@@ -77,6 +100,7 @@ function App() {
         {/* to call the pages */}
         <RouterProvider router={router} />
         {/* here */}
+        
       </NoteState>
     </>
   );
