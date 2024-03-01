@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom';
 
 // import the context to use the context
 import NoteContext from '../../context/notes/noteContext'
@@ -11,12 +12,21 @@ export default function Notes(props) {
     // in the functional component, we can use the context using the useContext hook
     const context = useContext(NoteContext);
 
+    // useNavigate hook
+    const navigate = useNavigate()
+
     // Destructuring the context
     const { notes, getNotes, editNote } = context;
 
     // Fetching all notes
     useEffect(() => {
-        getNotes();
+        if (localStorage.getItem('token')) {
+            getNotes();
+        }
+        else {
+            navigate("/login")
+            props.showAlert("You are not Logged in", "danger")
+        }
         // eslint-disable-next-line
     }, [])
 
@@ -98,7 +108,7 @@ export default function Notes(props) {
                 <div className="row my-3">
                     <h2>Your Notes</h2>
                     <div className="container">
-                    {notes.length === 0 && 'No notes to display'}
+                    {notes.length === 0 && 'No notes to display. Add a note to get started'}
                     </div>
                     {notes.map((note) => {
                         return <NoteItem note={note} updateNote={updateNote} showAlert={props.showAlert} key={note._id} />
