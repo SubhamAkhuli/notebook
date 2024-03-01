@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 const Login = (props) => {
@@ -16,11 +16,10 @@ const Login = (props) => {
             body: JSON.stringify({email: credentials.email, password: credentials.password})
         });
         const json = await response.json()
-        console.log(json);
         if (json.success){
             // Save the auth token and redirect
-            localStorage.setItem('token', json.authtoken); 
-            navigate("/");
+            localStorage.setItem('token', json.authToken);
+            navigate("/home");
             props.showAlert("Logged in Successfully", "success");
         }
         else{
@@ -46,6 +45,11 @@ const Login = (props) => {
                 </div>
 
                 <button type="submit" className="btn btn-primary">Submit</button>
+                <p className="mt-3">Don't have an account?
+          <button className="btn btn-primary mx-2"><NavLink style={{
+            textDecoration: "none"
+            , color: "white"
+          }} to="/signup">Signup</NavLink></button></p>
             </form>
         </div>
     )
