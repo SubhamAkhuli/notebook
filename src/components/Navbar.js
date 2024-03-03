@@ -44,12 +44,12 @@ export default function Navbar(props) {
               </li>
             </ul>
             {!localStorage.getItem('token') ? <form className="d-flex">
-              <NavLink className="btn btn-primary mx-2" to="/login" role="button">
+              <NavLink className="btn btn-primary mx-2" to="/login" >
                 Login</NavLink>
-              <NavLink className="btn btn-primary mx-2" to="/signup" role="button">
+              <NavLink className="btn btn-primary mx-2" to="/signup" >
                 Signup</NavLink>
-                </form> :<><NavLink className="btn btn-primary mx-2" to="/profile" role="button">
-                Profile</NavLink><button className="btn btn-primary" onClick={handelLogout} role="button">
+                </form> :<><NavLink className="btn btn-primary mx-2" to="/profile" >
+                Profile</NavLink><button className="btn btn-primary" onClick={handelLogout} >
                   Logout</button></>}
           </div>
         </div>
