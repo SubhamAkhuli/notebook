@@ -43,7 +43,7 @@ function Profile(props) {
         </div>
         <div className="form- mt-3">
           <label for="exampleInputEmail1">Number of Notes</label>
-          <input type="email" className="form-control mt-2" id="exampleInputEmail1" aria-describedby="emailHelp" value={notes.length} />
+          <input disabled="true" type="email" className="form-control mt-2" id="exampleInputEmail1" aria-describedby="emailHelp" value={notes.length} />
         </div>
       </form>
     </div>
