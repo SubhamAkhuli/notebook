@@ -5,28 +5,6 @@ import NoteContext from './noteContext'
 const NoteState = (props) => {
     const host = "http://localhost:8000"
 
-
-    // Fetching user data
-    const userdata = []
-    // useState is a hook that allows you to have state variables in functional components.
-    const [user, setUser] = useState(userdata)
-
-    //Get User Details
-    const getUser = async () => {
-        // API Call 
-        const response = await fetch(`${host}/api/auth/getuser`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-
-                'auth-token': localStorage.getItem('token')
-            }
-        });
-        const json = await response.json()
-        setUser(json)
-    }
-
-
     // Fetching all notes
     const initialNotes = []
     // useState is a hook that allows you to have state variables in functional components.
@@ -75,6 +53,7 @@ const NoteState = (props) => {
             "__v": 0
         }
         setNotes(notes.concat(note))
+        console.log("Adding a new note", notes)
     }
 
 
@@ -127,7 +106,7 @@ const NoteState = (props) => {
 
     // NoteContext.Provider is a component that provides the context to its children. It takes a value prop which is the value of the context.
     return (
-        <NoteContext.Provider value={{ notes, setNotes, user, setUser, addNote, deleteNote, editNote, getNotes, getUser }}>
+        <NoteContext.Provider value={{ notes, setNotes,  addNote, deleteNote, editNote, getNotes }}>
             {props.children}
         </NoteContext.Provider>
     )
