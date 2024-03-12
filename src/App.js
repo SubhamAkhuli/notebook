@@ -99,9 +99,10 @@ function App() {
 
         {/* to call the pages */}
         <RouterProvider router={router} />
-        {/* here */}
         
+        {/* here */}
       </NoteState>
+      
     </>
   );
 }
