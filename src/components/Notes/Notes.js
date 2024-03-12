@@ -40,8 +40,12 @@ export default function Notes(props) {
     const updateNote = (currentNote) => {
         // on the update modal
         ref.current.click();
+
         setNote({ id: currentNote._id, etitle: currentNote.title, econtant: currentNote.content, etag: currentNote.tag })
     }
+
+    // save the data before update for the comparison
+    const data = { title: note.etitle, content: note.econtant, tag: note.etag }
 
     // update modal close set 
     const refColse = useRef(null)
@@ -51,7 +55,16 @@ export default function Notes(props) {
         // API Call to update the note
         editNote(note.id, note.etitle, note.econtant, note.etag)
         refColse.current.click();
-        props.showAlert("Update the note", "success")
+        if (note.etitle === "" || note.econtant === "" || note.etag === "") {
+            props.showAlert("Please fill the details", "danger")
+        }
+        else if (note.etitle === data.title && note.econtant === data.content && note.etag === data.tag) {
+            props.showAlert("No changes", "danger")
+        }
+        else{
+            props.showAlert("Update the note", "success")
+        }
+
     }
 
     // form onchange funcation
@@ -96,7 +109,7 @@ export default function Notes(props) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" ref={refColse} data-bs-dismiss="modal">Close</button>
                             <button disabled={note.etitle.length<5 || note.econtant.length<5 || note.etag.length
-                            <3}  type="button" className="btn btn-primary" onClick={handleSubmit}>Update Note</button>
+                            <3 }  type="button" className="btn btn-primary" onClick={handleSubmit}>Update Note</button>
                         </div>
                     </div>
                 </div>
