@@ -117,16 +117,37 @@ router.post('/login', [
 
 
 // Route:3 get loggedin user details using: POST "/api/auth/getuser" no login required
-router.post('/getuser', fetchuser , async (req, res) => {
+router.get('/getuser', fetchuser , async (req, res) => {
   try {
     // find the user by id and return the user details excluding the password
-    userId = req.user.id;
+    let userId = req.user.id;
     const user = await User.findById(userId).select("-password");
     res.send(user);
   } catch (error) {
     // error handling
     console.error(error.message);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+// Route:4 put request to change details using: PUT "/api/auth/changedetails" login required
+router.put('/edituser', fetchuser, async (req, res) => {
+  const { name, email } = req.body;
+  const UserFields = {};
+  if (name) { UserFields.name = name; }
+  if (email) { UserFields.email = email; }
+  try {
+    // find the user by id and update the name and email
+    let user = await User.findById(req.user.id);
+    if (!user) { return res.status(404).send("Not Found"); }
+    user = await User.findByIdAndUpdate(req.user.id, { $set: UserFields}, { new: true });
+    res.json({ user });
+  } catch (error) {
+    // error handling
+    console.error(error.message);
+    res.status(500).send("Some error occured");
   }
 });
 
